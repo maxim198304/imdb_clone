@@ -1,12 +1,10 @@
-<h1>Movies</h1>
-
-<div id="movies">
+<div class="row">
   <% @movies.each do |movie| %>
-    <%= render movie %>
-  <p>
-      <%= link_to "Show this movie", movie %>
-    </p>
+    <div class="col-sm-6 col-md-3">
+      <div class="thumbnail">
+        <%= image_tag movie.image %>
+          <%= link_to "#{movie.title}", movie_path(movie) %>
+      </div>
+    </div>
   <% end %>
 </div>
-
-<%= link_to "New movie", new_movie_path %>

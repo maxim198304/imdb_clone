@@ -35,4 +35,14 @@
     <%= form.label :image %>
     <%= form.file_field :image, class: "form-control" %>
   </div>
+
+  <p>
+    <%= form.submit "Save" %>
+  </p>
 <% end %>
+
+<div class="form-group">
+  <% if @movie.image.attached? %>
+    <%= image_tag @movie.image %>
+  <% end %>
+</div>
