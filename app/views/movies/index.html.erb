@@ -2,7 +2,7 @@
   <% @movies.each do |movie| %>
     <div class="col-sm-6 col-md-3">
       <div class="thumbnail">
-        <%= image_tag movie.image %>
+        <%= image_tag movie.image if movie.image.present? %>
           <%= link_to "#{movie.title}", movie_path(movie) %>
       </div>
     </div>
