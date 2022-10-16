@@ -11,7 +11,7 @@ class MoviesController < ApplicationController
   end
 
   def new
-    @movie = current_user.movies.build
+    @movie = current_admin_user.movies.build
   end
 
   def edit

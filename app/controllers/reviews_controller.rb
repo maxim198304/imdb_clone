@@ -43,12 +43,12 @@ class ReviewsController < ApplicationController
   end
 
   # DELETE /reviews/1 or /reviews/1.json
-  def destroy
-    @review.destroy
+   def destroy
+     @review.destroy
 
     respond_to do |format|
       format.html { redirect_to reviews_url, notice: "Review was successfully destroyed." }
-      format.json { head :no_content }
+      #ormat.json { head :no_content }
     end
   end
 
