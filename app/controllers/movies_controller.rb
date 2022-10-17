@@ -3,7 +3,12 @@ class MoviesController < ApplicationController
   before_action :authenticate_user!, except: [:index, :show]
 
   def index
-    @movies = Movie.all
+    if params[:category].blank?
+      @movies = Movie.page(params[:page]).order("created_at DESC")
+    else
+      @category_id = Category.find_by(name: params[:category]).id
+      @movies = Movie.where(category_id: @category_id).page(params[:page]).order("created_at DESC")
+    end
   end
 
   def show
@@ -12,48 +17,48 @@ class MoviesController < ApplicationController
 
   def new
     @movie = current_admin_user.movies.build
+    @categories = Category.all.map { |c| [c.name, c.id] }
   end
 
   def edit
+    @categories = Category.all.map { |c| [c.name, c.id] }
   end
 
   def create
-    @movie = current_user.movies.build(movie_params)
+    @movie = current_admin_user.movies.build(movie_params)
+    @movie.category_id = params[:category_id]
 
     respond_to do |format|
       if @movie.save
-        format.html { redirect_to movie_url(@movie), notice: "Movie was successfully created." }
-        format.json { render :show, status: :created, location: @movie }
+        redirect_to movie_url(@movie)
       else
-        format.html { render :new, status: :unprocessable_entity }
-        format.json { render json: @movie.errors, status: :unprocessable_entity }
+        render :new
       end
     end
   end
 
   def update
-      if @movie.update(movie_params)
-        redirect_to movie_url(@movie), notice: "Movie was successfully updated."
-      else
-        render :edit, status: :unprocessable_entity
-      end
+    @movie.category_id = params[:category_id]
+    if @movie.update(movie_params)
+      redirect_to movie_url(@movie)
+    else
+      render :edit
+    end
   end
 
   def destroy
     @movie.destroy
 
-    respond_to do |format|
-      format.html { redirect_to movies_url, notice: "Movie was successfully destroyed." }
-      format.json { head :no_content }
+    redirect_to movies_url
     end
   end
 
   private
-    def set_movie
-      @movie = Movie.find(params[:id])
-    end
 
-    def movie_params
-      params.require(:movie).permit(:title, :description, :rating, :category, :image)
-    end
-end
+  def set_movie
+    @movie = Movie.find(params[:id])
+  end
+
+  def movie_params
+    params.require(:movie).permit(:title, :description, :rating, :category_id, :image)
+  end

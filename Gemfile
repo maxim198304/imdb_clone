@@ -15,11 +15,15 @@ gem "bootsnap", require: false
 gem 'devise', '~> 4.8', '>= 4.8.1'
 gem 'bootstrap-sass', '~> 3.4', '>= 3.4.1'
 gem 'activeadmin', '~> 2.13', '>= 2.13.1'
+gem 'kaminari'
 
 
 
 group :development, :test do
   gem 'byebug'
+  gem 'rspec-rails'
+  gem 'factory_bot_rails'
+  gem 'faker', :git => 'https://github.com/faker-ruby/faker.git', :branch => 'main'
 end
 
 group :development do
@@ -31,4 +35,5 @@ group :test do
   gem "capybara"
   gem "selenium-webdriver"
   gem "webdrivers"
+  gem 'database_cleaner-active_record', '~> 2.0', '>= 2.0.1'
 end
