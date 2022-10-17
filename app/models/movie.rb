@@ -4,7 +4,7 @@ class Movie < ApplicationRecord
 
   has_one_attached :image, :dependent => :destroy
 
-  paginates_per 20
+  paginates_per 4
 
   def blank_stars
     10 - Movie.average(:rating).to_i
